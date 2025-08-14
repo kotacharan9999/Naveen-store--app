@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cart - Book & Stationery Stall</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    nav {
+      background-color: #007bff;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .cart-item {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">Home</a> |
+  <a href="products.html">View Products</a> |
+  <a href="cart.html">View Cart</a>
+  <a href="order.html">Place Order</a>
+
+</nav>
+
+<h1>🛒 Your Cart</h1>
+<div id="cart-container">
+  <!-- Cart items will appear here -->
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+  <button onclick="clearCart()" style="background-color: red;">🗑️ Clear Cart</button>
+</div>
+
+
+<script>
+  const cartContainer = document.getElementById('cart-container');
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  if (cart.length === 0) {
+    cartContainer.innerHTML = "<p>Your cart is empty.</p>";
+  } else {
+    cart.forEach(item => {
+      const div = document.createElement('div');
+      div.className = "cart-item";
+      div.innerHTML = `<strong>${item.name}</strong><br>Price: ${item.price}`;
+      cartContainer.appendChild(div);
+    });
+  }
+  function clearCart() {
+  if (confirm("Are you sure you want to clear the cart?")) {
+    localStorage.removeItem("cart");
+    location.reload(); // refresh the page to update view
+  }
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Order - Book & Stationery Stall</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    form {
+  max-width: 400px;
+  width: 90%;
+  margin: 0 auto;
+  background: #f8f8f8;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    nav {
+      background-color: #007bff;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      background: #f8f8f8;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px;
+      background-color: green;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: darkgreen;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">Home</a> |
+  <a href="products.html">View Products</a> |
+  <a href="cart.html">View Cart</a> |
+  <a href="order.html">Place Order</a>
+</nav>
+
+<h1>📝 Place Your Order</h1>
+
+<form onsubmit="sendWhatsApp(event)">
+  <label for="name">Full Name</label>
+  <input type="text" id="name" required>
+
+  <label for="phone">Phone Number</label>
+  <input type="tel" id="phone" required>
+
+  <label for="address">Delivery Address</label>
+  <textarea id="address" rows="4" required></textarea>
+
+  <button type="submit">📲 Send Order via WhatsApp</button>
+</form>
+
+<script>
+  function sendWhatsApp(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const phone = document.getElementById("phone").value;
+    const address = document.getElementById("address").value;
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (cart.length === 0) {
+      alert("Your cart is empty. Please add products first.");
+      return;
+    }
+
+    // Format the message
+    let message = `*New Order from ${name}*%0A`;
+    message += `📞 Phone: ${phone}%0A🏠 Address: ${address}%0A%0A`;
+    message += `🛒 *Items:*%0A`;
+
+    cart.forEach((item, i) => {
+      message += `${i + 1}. ${item.name} - ${item.price}%0A`;
+    });
+
+    // Change this to your father's WhatsApp number (with country code)
+    const number = "918897167559"; // e.g., 91 for India + phone number
+    const url = `https://wa.me/${number}?text=${message}`;
+
+    // Open WhatsApp
+    window.open(url, "_blank");
+
+    // Optional: Clear form and cart
+    document.getElementById("name").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("address").value = "";
+    localStorage.removeItem("cart");
+  }
+</script>
+
+</body>
+</html>
